@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-1">Smart Rural Monitoring Dashboard</h1>
+<p class="text-muted">AI-assisted health screening and water-quality monitoring.</p>
+
+<div class="row g-3 my-3">
+  <div class="col-md-3"><div class="card stat"><div class="card-body"><h6>Health Records</h6><h2>{{ health_count }}</h2></div></div></div>
+  <div class="col-md-3"><div class="card stat"><div class="card-body"><h6>High-Risk Flags</h6><h2>{{ high_health }}</h2></div></div></div>
+  <div class="col-md-3"><div class="card stat"><div class="card-body"><h6>Water Records</h6><h2>{{ water_count }}</h2></div></div></div>
+  <div class="col-md-3"><div class="card stat"><div class="card-body"><h6>Unsafe Water Flags</h6><h2>{{ unsafe_water }}</h2></div></div></div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header fw-bold">Recent Health Assessments</div>
+      <div class="card-body table-responsive">
+        <table class="table table-sm">
+          <tr><th>Name</th><th>Risk</th><th>Confidence</th></tr>
+          {% for r in recent_health %}
+          <tr><td>{{ r.name }}</td><td><span class="badge risk-{{ r.risk|lower }}">{{ r.risk }}</span></td><td>{{ "%.1f"|format(r.probability*100) }}%</td></tr>
+          {% else %}<tr><td colspan="3">No records yet.</td></tr>{% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header fw-bold">Recent Water Assessments</div>
+      <div class="card-body table-responsive">
+        <table class="table table-sm">
+          <tr><th>Location</th><th>Status</th><th>Confidence</th></tr>
+          {% for r in recent_water %}
+          <tr><td>{{ r.location }}</td><td><span class="badge water-{{ r.quality|lower }}">{{ r.quality }}</span></td><td>{{ "%.1f"|format(r.probability*100) }}%</td></tr>
+          {% else %}<tr><td colspan="3">No records yet.</td></tr>{% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

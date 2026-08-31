@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Water Quality Assessment</h2>
+<p class="text-muted">Enter measured water parameters or values from connected sensors.</p>
+<form method="post" class="card p-4">
+  <div class="row g-3">
+    <div class="col-md-6"><label class="form-label">Water Source / Location</label><input name="location" class="form-control" placeholder="Village Well 01" required></div>
+    <div class="col-md-3"><label class="form-label">pH</label><input name="ph" type="number" step="0.01" class="form-control" required></div>
+    <div class="col-md-3"><label class="form-label">Turbidity NTU</label><input name="turbidity" type="number" step="0.01" class="form-control" required></div>
+    <div class="col-md-4"><label class="form-label">TDS mg/L</label><input name="tds" type="number" step="0.1" class="form-control" required></div>
+    <div class="col-md-4"><label class="form-label">Temperature °C</label><input name="temperature" type="number" step="0.1" class="form-control" required></div>
+    <div class="col-md-4"><label class="form-label">Conductivity µS/cm</label><input name="conductivity" type="number" step="0.1" class="form-control" required></div>
+    <div class="col-md-4"><label class="form-label">Dissolved Oxygen mg/L</label><input name="dissolved_oxygen" type="number" step="0.01" class="form-control" required></div>
+  </div>
+  <button class="btn btn-primary mt-4">Assess Water Quality</button>
+</form>
+
+{% if result %}
+<div class="alert {% if result.error %}alert-danger{% elif result.quality == 'UNSAFE' %}alert-danger{% elif result.quality == 'MODERATE' %}alert-warning{% else %}alert-success{% endif %} mt-4">
+  {% if result.error %}
+    Error: {{ result.error }}
+  {% else %}
+    <h4>Result: {{ result.quality }}</h4>
+    <p>Model confidence: {{ result.probability }}%</p>
+    <small>For real-world drinking-water decisions, use validated laboratory/field testing and applicable local standards.</small>
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}
