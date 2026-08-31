@@ -1,0 +1,6 @@
+body { background: #f5f7fb; }
+.card { border: 0; box-shadow: 0 4px 18px rgba(0,0,0,.06); }
+.stat h2 { margin: 0; }
+.risk-low, .water-safe { background: #198754; }
+.risk-medium, .water-moderate { background: #ffc107; color: #111; }
+.risk-high, .water-unsafe { background: #dc3545; }
